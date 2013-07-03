@@ -12,9 +12,8 @@ import org.lappsgrid.core.ViewOptions;
  * @author Di Wang
  * @author Keith Suderman
  */
-public interface DataSourceManager
+public interface DataSourceClient extends DataSource
 {
-
    /**
     * Gets a subset of corpus selected by input query.
     * 
@@ -22,7 +21,7 @@ public interface DataSourceManager
     *           the input query
     * @return a subset of annotated corpus
     */
-   public DataSource subCorpus(Data query);
+   public DataSourceClient subDataSource(Data query);
 
    /**
     * Gets the document stream reader of current corpus.
@@ -33,7 +32,7 @@ public interface DataSourceManager
     *           spans", etc.
     * @return the document stream reader
     */
-   public DataSourceIterator getDataSourceIterator(ViewOptions options);
+   public DataSourceIterator iterator(ViewOptions options);
 
    /**
     * Gets one document by documentID.
@@ -46,6 +45,6 @@ public interface DataSourceManager
     *           the document id
     * @return the document
     */
-   public Data getData(ViewOptions options, String documentID);
+   public Data get(ViewOptions options, String documentID);
 
 }
