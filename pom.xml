@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.lappsgrid</groupId>
   <artifactId>client</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>LAPPS Client API</name>
   <description>Interfaces and classes used in client side code</description>
     <build>
@@ -17,7 +17,7 @@
   	<dependency>
   		<groupId>org.lappsgrid</groupId>
   		<artifactId>api</artifactId>
-  		<version>1.0.0</version>
+  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.lappsgrid</groupId>
