@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.lappsgrid</groupId>
   <artifactId>client</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>LAPPS Client API</name>
   <description>Interfaces and classes used in client side code</description>
     <build>
@@ -17,12 +17,17 @@
   	<dependency>
   		<groupId>org.lappsgrid</groupId>
   		<artifactId>api</artifactId>
-  		<version>${project.version}</version>
+  		<version>1.0.1</version>
   	</dependency>
   	<dependency>
   		<groupId>org.lappsgrid</groupId>
   		<artifactId>core</artifactId>
-  		<version>1.0.0</version>
+  		<version>1.0.1</version>
   	</dependency>
+      <dependency>
+          <groupId>org.anc.soap</groupId>
+          <artifactId>simple-soap-client</artifactId>
+          <version>1.0.1</version>
+      </dependency>
   </dependencies>
 </project>
