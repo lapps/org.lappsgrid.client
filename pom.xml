@@ -3,15 +3,15 @@
   <parent>
     <groupId>org.lappsgrid.maven</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1-SNAPSHOT</version>
   </parent>
   <groupId>org.lappsgrid</groupId>
   <artifactId>client</artifactId>
   <version>1.0.2-SNAPSHOT</version>
-  <name>LAPPS Client API</name>
-  <description>Interfaces and classes used in client side code</description>
+  <name>LAPPS Clients</name>
+  <description>Classes used in client side code to access datasources and services on the LAPPS grid.</description>
     <build>
-        <finalName>${groupId}.${artifactId}-${version}</finalName>
+        <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
     </build>
   <dependencies>
   	<dependency>
@@ -27,7 +27,13 @@
       <dependency>
           <groupId>org.anc.soap</groupId>
           <artifactId>simple-soap-client</artifactId>
-          <version>1.0.1</version>
+          <version>1.0.3-SNAPSHOT</version>
       </dependency>
   </dependencies>
+    <distributionManagement>
+        <site>
+            <id>anc-scp</id>
+            <url>scp://suderman@anc.org:22022/home/www/anc/projects/lapps/client</url>
+        </site>
+    </distributionManagement>
 </project>
