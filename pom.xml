@@ -3,11 +3,11 @@
   <parent>
     <groupId>org.lappsgrid.maven</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <groupId>org.lappsgrid</groupId>
   <artifactId>client</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
   <name>LAPPS Clients</name>
   <description>Classes used in client side code to access datasources and services on the LAPPS grid.</description>
     <build>
@@ -27,7 +27,7 @@
       <dependency>
           <groupId>org.anc.soap</groupId>
           <artifactId>simple-soap-client</artifactId>
-          <version>1.0.3-SNAPSHOT</version>
+          <version>1.0.3</version>
       </dependency>
   </dependencies>
     <distributionManagement>
