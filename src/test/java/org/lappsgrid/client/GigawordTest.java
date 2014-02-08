@@ -1,5 +1,6 @@
 package org.lappsgrid.client;
 
+import org.anc.soap.client.AbstractSoapClient;
 import org.anc.soap.client.SoapClient;
 import org.lappsgrid.api.Data;
 import org.lappsgrid.api.DataSource;
@@ -32,11 +33,12 @@ public class GigawordTest
 
    }
 
-   @Test
+   @Ignore
    public void soapTest() throws ServiceException, RemoteException
    {
       SoapClient client = new SoapClient(NAMESPACE, ENDPOINT);
       client.setCredentials(username, password);
+//      AbstractSoapClient client = new GigawordClient();
       Data[] args = new Data[] { DataFactory.list() };
       Object result = client.invoke("query", args);
       assertTrue(result != null);
@@ -72,3 +74,4 @@ public class GigawordTest
       System.out.println(data.getPayload());
    }
 }
+
