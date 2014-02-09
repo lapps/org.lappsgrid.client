@@ -1,6 +1,8 @@
-package org.lappsgrid.client.service;
+package org.lappsgrid.client;
 
 /**
+ * A class to hold information about a particular server on the LAPPS grid.
+ *
  * @author Keith Suderman
  */
 public class Server

@@ -1,50 +1,78 @@
 package org.lappsgrid.client;
 
-import org.lappsgrid.api.*;
-import org.lappsgrid.core.ViewOptions;
+import org.anc.soap.client.AbstractSoapClient;
+import org.apache.axis.encoding.ser.BeanDeserializerFactory;
+import org.apache.axis.encoding.ser.BeanSerializerFactory;
+import org.lappsgrid.api.Data;
+import org.lappsgrid.api.DataSource;
+import org.lappsgrid.api.InternalException;
+import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Types;
+
+import javax.xml.namespace.QName;
+import javax.xml.rpc.ServiceException;
+import java.rmi.RemoteException;
 
 /**
- * Represents a ranked list of documents with annotations.
- * 
- * The implementation of this interface may store document id (and/or spans)
- * itself and/or caching with {@link DataSourceCachingStrategy}.
- * 
- * @author Di Wang
+ * Client class for objects that want to access LAPPS DataSources.
+ *
  * @author Keith Suderman
  */
-public interface DataSourceClient extends DataSource
+public class DataSourceClient extends AbstractSoapClient implements DataSource
 {
-   /**
-    * Gets a subset of corpus selected by input query.
-    * 
-    * @param query
-    *           the input query
-    * @return a subset of annotated corpus
-    */
-   public DataSourceClient subDataSource(Data query);
+   public DataSourceClient(String endpoint, String username, String password) throws ServiceException
+   {
+      super(endpoint, endpoint);
+      super.setCredentials(username, password);
+      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+   }
 
-   /**
-    * Gets the document stream reader of current corpus.
-    * 
-    * @param options
-    *           the options that specify how to present each document such as
-    *           returning "doc id", "doc content", "annotation", "annotation
-    *           spans", etc.
-    * @return the document stream reader
-    */
-   public DataSourceIterator iterator(ViewOptions options);
+   public DataSourceClient(String namespace, String endpoint) throws ServiceException
+   {
+      super(namespace, endpoint);
+      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+   }
 
-   /**
-    * Gets one document by documentID.
-    * 
-    * @param options
-    *           the options that specify how to present each document such as
-    *           returning "doc id", "doc content", "annotation", "annotation
-    *           spans", etc.
-    * @param documentID
-    *           the document id
-    * @return the document
-    */
-   public Data get(ViewOptions options, String documentID);
+   @Override
+   public Data query(Data input)
+   {
+      Data[] args = { input };
+      Data result = null;
+      try
+      {
+         result = (Data) super.invoke("query", args);
+      }
+      catch (RemoteException e)
+      {
+         e.printStackTrace();
+         result = DataFactory.error(e.getMessage());
+      }
+      return result;
+   }
 
+   public Data get(String key)
+   {
+      return this.query(DataFactory.get(key));
+   }
+
+   public String[] list() throws InternalException
+   {
+      Data result = this.query(DataFactory.list());
+      if (result.getDiscriminator() == Types.ERROR)
+      {
+         throw new InternalException(result.getPayload());
+      }
+      String payload = result.getPayload();
+      if (payload == null)
+      {
+         return new String[0];
+      }
+      return payload.split("\\s+");
+   }
 }

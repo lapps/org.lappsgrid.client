@@ -12,7 +12,8 @@ import org.lappsgrid.core.DataFactory;
 import org.lappsgrid.core.ViewOptions;
 import org.lappsgrid.discriminator.Types;
 
-public class ListDataSourceClient implements DataSourceClient {
+public class ListDataSourceClient implements ExtendedDataSource
+{
 	/** The list of document ID values this DataSource will iterate over. */
 	protected List<String> docIdList;
 
@@ -80,7 +81,7 @@ public class ListDataSourceClient implements DataSourceClient {
 	}
 	
 	@Override
-	public DataSourceClient subDataSource(Data query) {
+	public ExtendedDataSource subDataSource(Data query) {
 	    Data list = query(query);
 	    String[] idArr = list.getPayload().split("\\s+");
 	    List<String> idList = new ArrayList<String>();

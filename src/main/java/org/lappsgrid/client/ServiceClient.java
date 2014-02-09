@@ -1,4 +1,4 @@
-package org.lappsgrid.client.service;
+package org.lappsgrid.client;
 
 import org.anc.soap.client.AbstractSoapClient;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
@@ -21,10 +21,10 @@ public class ServiceClient extends AbstractSoapClient implements WebService
    {
       super(url, url);
       super.setCredentials(user, password);
-//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
    public ServiceClient(Server server, String endpoint) throws ServiceException
