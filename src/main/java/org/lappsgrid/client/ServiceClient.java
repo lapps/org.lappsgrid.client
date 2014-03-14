@@ -17,6 +17,11 @@ import java.rmi.RemoteException;
  */
 public class ServiceClient extends AbstractSoapClient implements WebService
 {
+   public ServiceClient(String url) throws ServiceException
+   {
+      this(url, null, null);
+   }
+
    public ServiceClient(String url, String user, String password) throws ServiceException
    {
       super(url, url);
