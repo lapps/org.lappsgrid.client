@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.4</version>
     <name>LAPPS Clients</name>
     <description>Classes used in client side code to access datasources and services on the LAPPS grid.</description>
     <build>
