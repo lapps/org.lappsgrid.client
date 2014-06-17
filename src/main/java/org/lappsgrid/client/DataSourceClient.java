@@ -74,21 +74,50 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
 
    public Data get(String key)
    {
-      return this.query(DataFactory.get(key));
+      try
+      {
+         return (Data) super.invoke("get", new Object[] { key });
+      }
+      catch (RemoteException e)
+      {
+         return DataFactory.error(e.getMessage());
+      }
    }
 
-   public String[] list() throws InternalException
+   public Data list()
    {
-      Data result = this.query(DataFactory.list());
-      if (result.getDiscriminator() == Types.ERROR)
+      try
       {
-         throw new InternalException(result.getPayload());
+         return (Data) super.invoke("list");
       }
-      String payload = result.getPayload();
-      if (payload == null)
+      catch (RemoteException e)
       {
-         return new String[0];
+         return DataFactory.error(e.getMessage());
       }
-      return payload.split("\\s+");
+   }
+
+   public Data list(int start, int end)
+   {
+      Object[] args = { start, end };
+      try
+      {
+         return (Data) super.invoke("list", args);
+      }
+      catch (RemoteException e)
+      {
+         return DataFactory.error(e.getMessage());
+      }
+   }
+
+   public int size()
+   {
+      try
+      {
+         return (Integer) super.invoke("size");
+      }
+      catch (RemoteException e)
+      {
+         return -1;
+      }
    }
 }

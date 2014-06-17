@@ -3,15 +3,19 @@ package org.lappsgrid.client;
 import org.junit.*;
 import org.lappsgrid.api.Data;
 import org.lappsgrid.api.WebService;
+import org.lappsgrid.discriminator.Discriminator;
+import org.lappsgrid.discriminator.DiscriminatorRegistry;
 import org.lappsgrid.discriminator.Types;
 
 import javax.xml.rpc.ServiceException;
 
 import static org.junit.Assert.*;
+import static org.lappsgrid.discriminator.Helpers.type;
 
 /**
  * @author Keith Suderman
  */
+@Ignore
 public class WebServiceClientTest
 {
    public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
@@ -40,29 +44,11 @@ public class WebServiceClientTest
    }
 
    @Test
-   public void testRequires()
-   {
-      long[] requires = service.requires();
-      assertNotNull(requires);
-      assertTrue(requires.length == 1);
-      assertTrue(requires[0] == Types.TEXT);
-   }
-
-   @Test
-   public void testProduces()
-   {
-      long[] produces = service.produces();
-      assertNotNull(produces);
-      assertTrue(produces.length == 1);
-      assertTrue(produces[0] == Types.TEXT);
-   }
-
-   @Test
    public void testConfigure()
    {
       Data result = service.configure(null);
       assertNotNull(result);
-      assertTrue(result.getDiscriminator() == Types.TEXT);
+      assertTrue(type(result) == Types.TEXT);
    }
 
    @Test
@@ -70,6 +56,7 @@ public class WebServiceClientTest
    {
       Data result = service.execute(null);
       assertNotNull(result);
-      assertTrue(result.getDiscriminator() == Types.TEXT);
+      assertTrue(type(result) == Types.TEXT);
    }
+
 }

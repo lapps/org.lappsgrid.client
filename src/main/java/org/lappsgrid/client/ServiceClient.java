@@ -53,33 +53,28 @@ public class ServiceClient extends AbstractSoapClient implements WebService
       this(server.getUrl() + "/service_manager/invoker/" + endpoint, server.getUser(), server.getPassword());
    }
 
-   @Override
-   public long[] requires()
-   {
-      try
-      {
-         return (long[]) super.invoke("requires");
-      }
-      catch (RemoteException e)
-      {
-         //TODO This error should be logged.
-         e.printStackTrace();
-         return new long[] { Types.ERROR };
-      }
-   }
+//   @Override
+//   public long[] requires()
+//   {
+//      throw new UnsupportedOperationException("This method has been deprecated.");
+//   }
+//
+//   @Override
+//   public long[] produces()
+//   {
+//      throw new UnsupportedOperationException("This method has been deprecated.");
+//   }
 
    @Override
-   public long[] produces()
+   public Data getMetadata()
    {
       try
       {
-         return (long[]) super.invoke("produces");
+         return (Data) super.invoke("getMetadata");
       }
       catch (RemoteException e)
       {
-         // TODO This error should be logged.
-         e.printStackTrace();
-         return new long[] { Types.ERROR };
+         return DataFactory.error(e.getMessage());
       }
    }
 
