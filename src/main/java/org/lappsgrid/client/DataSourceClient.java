@@ -16,7 +16,6 @@
  */
 package org.lappsgrid.client;
 
-import org.anc.soap.client.AbstractSoapClient;
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
 import org.apache.axis.encoding.ser.BeanSerializerFactory;
 import org.lappsgrid.api.Data;
