@@ -83,6 +83,18 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
    }
 
+	public Data getMetadata()
+	{
+		try
+		{
+			return (Data) super.invoke("getMetadata");
+		}
+		catch (RemoteException e)
+		{
+			return DataFactory.error("Unable to retrieve metadata.", e);
+		}
+	}
+
    public Data list()
    {
       try

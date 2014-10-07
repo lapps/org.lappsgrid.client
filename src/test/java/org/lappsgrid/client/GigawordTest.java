@@ -1,21 +1,16 @@
 package org.lappsgrid.client;
 
-import org.anc.soap.client.SoapClient;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.lappsgrid.api.Data;
 import org.lappsgrid.api.DataSource;
 import org.lappsgrid.api.LappsException;
 import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Types;
 
 import javax.xml.rpc.ServiceException;
 
-import org.junit.*;
-import org.lappsgrid.discriminator.Discriminator;
-import org.lappsgrid.discriminator.DiscriminatorRegistry;
-import org.lappsgrid.discriminator.Types;
-
-import java.rmi.RemoteException;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.lappsgrid.discriminator.Helpers.type;
 
 /**

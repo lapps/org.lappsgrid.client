@@ -1,15 +1,17 @@
 package org.lappsgrid.client;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.lappsgrid.api.Data;
 import org.lappsgrid.api.WebService;
-import org.lappsgrid.discriminator.Discriminator;
-import org.lappsgrid.discriminator.DiscriminatorRegistry;
 import org.lappsgrid.discriminator.Types;
 
 import javax.xml.rpc.ServiceException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.lappsgrid.discriminator.Helpers.type;
 
 /**
