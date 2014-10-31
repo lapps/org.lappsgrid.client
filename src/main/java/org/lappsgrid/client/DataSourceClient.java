@@ -54,6 +54,19 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
+	@Override
+	public Data login(Data input)
+	{
+		try
+		{
+			return (Data) super.invoke("login", new Object[] { input });
+		}
+		catch (RemoteException e)
+		{
+			return DataFactory.error(e);
+		}
+	}
+
    @Override
    public Data query(Data input)
    {
@@ -65,8 +78,8 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
       catch (RemoteException e)
       {
-         e.printStackTrace();
-         result = DataFactory.error(e.getMessage());
+         //e.printStackTrace();
+         result = DataFactory.error(e);
       }
       return result;
    }
@@ -79,7 +92,7 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
       catch (RemoteException e)
       {
-         return DataFactory.error(e.getMessage());
+         return DataFactory.error(e);
       }
    }
 
@@ -103,7 +116,7 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
       catch (RemoteException e)
       {
-         return DataFactory.error(e.getMessage());
+         return DataFactory.error(e);
       }
    }
 
@@ -116,7 +129,7 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
       }
       catch (RemoteException e)
       {
-         return DataFactory.error(e.getMessage());
+         return DataFactory.error(e);
       }
    }
 
