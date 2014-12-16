@@ -16,15 +16,8 @@
  */
 package org.lappsgrid.client;
 
-import org.apache.axis.encoding.ser.BeanDeserializerFactory;
-import org.apache.axis.encoding.ser.BeanSerializerFactory;
 //import org.lappsgrid.api.Data;
-import org.lappsgrid.api.DataSource;
-import org.lappsgrid.api.InternalException;
-import org.lappsgrid.core.DataFactory;
-import org.lappsgrid.discriminator.Types;
-import org.lappsgrid.experimental.api.WebService;
-import org.lappsgrid.serialization.Data;
+import org.lappsgrid.api.WebService;
 import org.lappsgrid.serialization.Error;
 import org.lappsgrid.serialization.Serializer;
 import org.lappsgrid.serialization.aas.Token;
@@ -33,11 +26,8 @@ import org.lappsgrid.serialization.datasource.List;
 import org.lappsgrid.serialization.datasource.Size;
 import org.lappsgrid.serialization.service.GetMetadata;
 
-import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.HashMap;
 
 /**
  * Client class for objects that want to access LAPPS DataSources.
