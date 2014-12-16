@@ -33,6 +33,7 @@ public class WebServiceClientTest
 
    }
 
+   /*
    @Before
    public void setup() throws ServiceException
    {
@@ -60,5 +61,5 @@ public class WebServiceClientTest
       assertNotNull(result);
       assertTrue(type(result) == Types.TEXT);
    }
-
+   */
 }

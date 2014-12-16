@@ -16,8 +16,8 @@
  */
 package org.lappsgrid.client;
 
-import org.lappsgrid.api.Data;
-import org.lappsgrid.api.WebService;
+//import org.lappsgrid.api.Data;
+import org.lappsgrid.experimental.api.WebService;
 import org.lappsgrid.core.DataFactory;
 
 import javax.xml.namespace.QName;
@@ -26,6 +26,8 @@ import java.rmi.RemoteException;
 
 import org.apache.axis.encoding.ser.BeanDeserializerFactory;
 import org.apache.axis.encoding.ser.BeanSerializerFactory;
+import org.lappsgrid.serialization.aas.Token;
+import org.lappsgrid.serialization.service.GetMetadata;
 
 /**
  * @author Keith Suderman
@@ -41,16 +43,26 @@ public class ServiceClient extends AbstractSoapClient implements WebService
    {
       super(url, url);
       super.setCredentials(user, password);
-      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
-   public ServiceClient(Server server, String endpoint) throws ServiceException
+   public String getMetadata(Token token)
    {
-      this(server.getUrl() + "/service_manager/invoker/" + endpoint, server.getUser(), server.getPassword());
+      return dispatch(new GetMetadata(token));
    }
+
+   public String execute(String json)
+   {
+      return dispatch(json);
+   }
+
+//   public ServiceClient(Server server, String endpoint) throws ServiceException
+//   {
+//      this(server.getUrl() + "/service_manager/invoker/" + endpoint, server.getUser(), server.getPassword());
+//   }
 
 //   @Override
 //   public long[] requires()
@@ -64,6 +76,8 @@ public class ServiceClient extends AbstractSoapClient implements WebService
 //      throw new UnsupportedOperationException("This method has been deprecated.");
 //   }
 
+
+   /*
    @Override
    public Data getMetadata()
    {
@@ -106,4 +120,5 @@ public class ServiceClient extends AbstractSoapClient implements WebService
          return DataFactory.error(e.getMessage());
       }
    }
+   */
 }

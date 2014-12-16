@@ -26,6 +26,7 @@ public class GigawordTest
    public static final String username = "operator";
    public static final String password = "operator";
 
+   /*
    public GigawordTest()
    {
 
@@ -75,5 +76,6 @@ public class GigawordTest
       }
       System.out.println("Fetched all data from example Gigaword service.");
    }
+   */
 }
 

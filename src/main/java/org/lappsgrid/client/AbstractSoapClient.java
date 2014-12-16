@@ -1,14 +1,16 @@
 package org.lappsgrid.client;
 import java.rmi.RemoteException;
 
-import javax.xml.crypto.Data;
+//import javax.xml.crypto.Data;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
 
 import org.apache.axis.client.Call;
 import org.apache.axis.client.Service;
-import org.apache.axis.encoding.ser.BeanDeserializerFactory;
-import org.apache.axis.encoding.ser.BeanSerializerFactory;
+import org.lappsgrid.serialization.*;
+import org.lappsgrid.serialization.Error;
+//import org.apache.axis.encoding.ser.BeanDeserializerFactory;
+//import org.apache.axis.encoding.ser.BeanSerializerFactory;
 
 /**
  * The AbstractSoapClient manages the Axis Service and Call objects
@@ -111,4 +113,49 @@ public abstract class AbstractSoapClient
 		call.setOperationName(new QName(namespace, method));
 		return call.invoke(args);
 	}
+
+	public String execute(String input) throws RemoteException
+	{
+		Object[] args = new Object[] { input };
+		call.setOperationName(new QName(namespace, "execute"));
+		return call.invoke(args).toString();
+	}
+
+	public String execute(Data<?> input) throws RemoteException
+	{
+		return execute(Serializer.toJson(input));
+	}
+
+	protected String dispatch(Data<?> data)
+	{
+		String result;
+		try
+		{
+			result = execute(data);
+		}
+		catch (RemoteException e)
+		{
+			org.lappsgrid.serialization.Error error = new Error();
+			error.setPayload(e.getMessage());
+			result = Serializer.toJson(error);
+		}
+		return result;
+	}
+
+	protected String dispatch(String json)
+	{
+		String result;
+		try
+		{
+			result = execute(json);
+		}
+		catch (RemoteException e)
+		{
+			Error error = new Error();
+			error.setPayload(e.getMessage());
+			result = Serializer.toJson(error);
+		}
+		return result;
+	}
+
 }
