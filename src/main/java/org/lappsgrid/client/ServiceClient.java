@@ -16,18 +16,15 @@
  */
 package org.lappsgrid.client;
 
-//import org.lappsgrid.api.Data;
-import org.lappsgrid.api.WebService;
-
+import org.lappsgrid.api.ProcessingService;
+import org.lappsgrid.serialization.Error;
 import javax.xml.rpc.ServiceException;
-
-import org.lappsgrid.serialization.aas.Token;
-import org.lappsgrid.serialization.service.GetMetadata;
+import java.rmi.RemoteException;
 
 /**
  * @author Keith Suderman
  */
-public class ServiceClient extends AbstractSoapClient implements WebService
+public class ServiceClient extends AbstractSoapClient implements ProcessingService
 {
    public ServiceClient(String url) throws ServiceException
    {
@@ -44,10 +41,19 @@ public class ServiceClient extends AbstractSoapClient implements WebService
 //      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
-   public String getMetadata(Token token)
+   public String getMetadata()
    {
-      return dispatch(new GetMetadata(token));
-   }
+      String json;
+		try
+		{
+			json = callGetMetadata();
+		}
+		catch (RemoteException e)
+		{
+			json = new Error(e.getMessage()).asJson();
+		}
+		return json;
+	}
 
    public String execute(String json)
    {

@@ -2,34 +2,51 @@ package org.lappsgrid.client;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.lappsgrid.api.Data;
 import org.lappsgrid.api.LappsException;
-import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Constants;
 import org.lappsgrid.discriminator.DiscriminatorRegistry;
 import org.lappsgrid.discriminator.Types;
 import org.lappsgrid.discriminator.Uri;
+import org.lappsgrid.serialization.Serializer;
+import org.lappsgrid.serialization.datasource.List;
+import org.springframework.stereotype.Service;
 
 import javax.xml.rpc.ServiceException;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
  * @author Keith Suderman
  */
-@Ignore
+//@Ignore
 public class DataSourceClientTest
 {
-   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
-   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
+//   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
+//   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
 
    public static final String USER = "temporary";
    public static final String PASS = "temporary";
+
 
    public DataSourceClientTest()
    {
 
    }
 
+   @Test
+   public void testDataSource() throws ServiceException
+   {
+      ServiceClient client = new ServiceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+      String json = Serializer.toJson(new List());
+      json = client.execute(json);
+      Map response = Serializer.parse(json, HashMap.class);
+      assertFalse(response.get("payload").toString(), Constants.Uri.ERROR.equals(response.get("discriminator").toString()));
+      //System.out.println(response);
+   }
    /*
    @Test
    public void testQuery() throws ServiceException

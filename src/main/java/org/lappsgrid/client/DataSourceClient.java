@@ -16,15 +16,13 @@
  */
 package org.lappsgrid.client;
 
-//import org.lappsgrid.api.Data;
-import org.lappsgrid.api.WebService;
+
+import org.lappsgrid.api.DataSource;
 import org.lappsgrid.serialization.Error;
 import org.lappsgrid.serialization.Serializer;
-import org.lappsgrid.serialization.aas.Token;
 import org.lappsgrid.serialization.datasource.Get;
 import org.lappsgrid.serialization.datasource.List;
 import org.lappsgrid.serialization.datasource.Size;
-import org.lappsgrid.serialization.service.GetMetadata;
 
 import javax.xml.rpc.ServiceException;
 import java.rmi.RemoteException;
@@ -34,7 +32,7 @@ import java.rmi.RemoteException;
  *
  * @author Keith Suderman
  */
-public class DataSourceClient extends AbstractSoapClient implements WebService
+public class DataSourceClient extends AbstractSoapClient implements DataSource
 {
    public DataSourceClient(String endpoint, String username, String password) throws ServiceException
    {
@@ -61,7 +59,7 @@ public class DataSourceClient extends AbstractSoapClient implements WebService
       String result;
       try
       {
-         result = super.execute(input).toString();
+         result = super.callExecute(input).toString();
       }
       catch (RemoteException e)
       {
@@ -72,112 +70,38 @@ public class DataSourceClient extends AbstractSoapClient implements WebService
       return result;
    }
 
-   public String list(Token token)
-   {
-      return dispatch(new List(token));
-   }
-
-   public String list(Token token, int start, int end)
-   {
-      return dispatch(new List(token, start, end));
-   }
-
-   public String get(Token token, String key)
-   {
-      return dispatch(new Get(token, key));
-   }
-
-   public String size(Token token)
-   {
-//      String json = dispatch(new Size(token));
-//      HashMap<String,Object> response = Serializer.parse(json, HashMap.class);
-//      return 0;
-      return dispatch(new Size(token));
-   }
-
-   public String getMetadata(Token token)
-   {
-      return dispatch(new GetMetadata(token));
-   }
-
-
-   /*
-   @Override
-   public Data query(Data input)
-   {
-      Data[] args = { input };
-      Data result = null;
-      try
-      {
-         result = (Data) super.invoke("query", args);
-      }
-      catch (RemoteException e)
-      {
-         //e.printStackTrace();
-         result = DataFactory.error(e);
-      }
-      return result;
-   }
-
-   public Data get(String key)
-   {
-      try
-      {
-         return (Data) super.invoke("get", new Object[] { key });
-      }
-      catch (RemoteException e)
-      {
-         return DataFactory.error(e);
-      }
-   }
-
-	public Data getMetadata()
+	@Override
+	public String getMetadata()
 	{
+		String result;
 		try
 		{
-			return (Data) super.invoke("getMetadata");
+			result = super.callGetMetadata();
 		}
 		catch (RemoteException e)
 		{
-			return DataFactory.error("Unable to retrieve metadata.", e);
+			result = new Error(e.getMessage()).asJson();
 		}
+		return result;
 	}
 
-   public Data list()
+   public String list()
    {
-      try
-      {
-         return (Data) super.invoke("list");
-      }
-      catch (RemoteException e)
-      {
-         return DataFactory.error(e);
-      }
+      return dispatch(new List());
    }
 
-   public Data list(int start, int end)
+   public String list(int start, int end)
    {
-      Object[] args = { start, end };
-      try
-      {
-         return (Data) super.invoke("list", args);
-      }
-      catch (RemoteException e)
-      {
-         return DataFactory.error(e);
-      }
+      return dispatch(new List(start, end));
    }
 
-   public int size()
+   public String get(String key)
    {
-      try
-      {
-         return (Integer) super.invoke("size");
-      }
-      catch (RemoteException e)
-      {
-         return -1;
-      }
+      return dispatch(new Get(key));
    }
-   */
+
+   public String size()
+   {
+      return dispatch(new Size());
+   }
 }

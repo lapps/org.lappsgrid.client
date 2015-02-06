@@ -1,17 +1,6 @@
 package org.lappsgrid.client;
 
 import org.junit.Ignore;
-import org.junit.Test;
-import org.lappsgrid.api.Data;
-import org.lappsgrid.api.DataSource;
-import org.lappsgrid.api.LappsException;
-import org.lappsgrid.core.DataFactory;
-import org.lappsgrid.discriminator.Types;
-
-import javax.xml.rpc.ServiceException;
-
-import static org.junit.Assert.assertTrue;
-import static org.lappsgrid.discriminator.Helpers.type;
 
 /**
  * @author Keith Suderman

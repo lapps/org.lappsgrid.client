@@ -114,16 +114,23 @@ public abstract class AbstractSoapClient
 		return call.invoke(args);
 	}
 
-	public String execute(String input) throws RemoteException
+	public String callExecute(String input) throws RemoteException
 	{
 		Object[] args = new Object[] { input };
 		call.setOperationName(new QName(namespace, "execute"));
 		return call.invoke(args).toString();
 	}
 
-	public String execute(Data<?> input) throws RemoteException
+	public String callGetMetadata() throws RemoteException
 	{
-		return execute(Serializer.toJson(input));
+		Object[] args = new Object[] { };
+		call.setOperationName(new QName(namespace, "getMetadata"));
+		return call.invoke(args).toString();
+	}
+
+	public String callExecute(Data<?> input) throws RemoteException
+	{
+		return callExecute(Serializer.toJson(input));
 	}
 
 	protected String dispatch(Data<?> data)
@@ -131,7 +138,7 @@ public abstract class AbstractSoapClient
 		String result;
 		try
 		{
-			result = execute(data);
+			result = callExecute(data);
 		}
 		catch (RemoteException e)
 		{
@@ -147,7 +154,7 @@ public abstract class AbstractSoapClient
 		String result;
 		try
 		{
-			result = execute(json);
+			result = callExecute(json);
 		}
 		catch (RemoteException e)
 		{
