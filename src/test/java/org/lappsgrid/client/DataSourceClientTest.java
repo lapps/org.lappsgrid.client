@@ -1,26 +1,36 @@
 package org.lappsgrid.client;
 
-import org.junit.*;
-import static org.junit.Assert.*;
-
-import org.lappsgrid.api.Data;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.lappsgrid.api.LappsException;
-import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Constants;
 import org.lappsgrid.discriminator.DiscriminatorRegistry;
 import org.lappsgrid.discriminator.Types;
+import org.lappsgrid.discriminator.Uri;
+import org.lappsgrid.serialization.Serializer;
+import org.lappsgrid.serialization.datasource.List;
+import org.springframework.stereotype.Service;
 
 import javax.xml.rpc.ServiceException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Keith Suderman
  */
+//@Ignore
 public class DataSourceClientTest
 {
-   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
-   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
+//   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
+//   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
 
    public static final String USER = "temporary";
    public static final String PASS = "temporary";
+
 
    public DataSourceClientTest()
    {
@@ -28,16 +38,29 @@ public class DataSourceClientTest
    }
 
    @Test
+   public void testDataSource() throws ServiceException
+   {
+      ServiceClient client = new ServiceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+      String json = Serializer.toJson(new List());
+      json = client.execute(json);
+      Map response = Serializer.parse(json, HashMap.class);
+      assertFalse(response.get("payload").toString(), Constants.Uri.ERROR.equals(response.get("discriminator").toString()));
+      //System.out.println(response);
+   }
+   /*
+   @Test
    public void testQuery() throws ServiceException
    {
       DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
       Data get = DataFactory.get("foo");
       Data result = client.query(get);
-      assertTrue(result.getDiscriminator() == Types.OK);
+      long type = DiscriminatorRegistry.getType(result.getDiscriminator());
+      assertTrue(type == Types.OK);
 
       Data list = DataFactory.list();
       result = client.query(list);
-      assertTrue(result.getDiscriminator() == Types.OK);
+      type = DiscriminatorRegistry.getType(result.getDiscriminator());
+      assertTrue(type == Types.OK);
    }
 
    @Test
@@ -45,7 +68,8 @@ public class DataSourceClientTest
    {
       DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
       Data result = client.get("foo");
-      assertTrue(result.getDiscriminator() == Types.OK);
+      long type = DiscriminatorRegistry.getType(result.getDiscriminator());
+      assertTrue(type == Types.OK);
    }
 
    // This test will always fails as the TestDataSource service's query method
@@ -55,8 +79,12 @@ public class DataSourceClientTest
    public void testList() throws ServiceException, LappsException
    {
       DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
-      String[] index = client.list();
-      assertTrue(index != null);
+      Data data = client.list();
+      assertTrue(data != null);
+      assertTrue(Uri.ONE_PER_LINE.equals(data.getDiscriminator()));
+      String[] index = data.getPayload().split("\n");
+      assertTrue(index.length > 0);
       System.out.println("Index size is " + index.length);
    }
+   */
 }

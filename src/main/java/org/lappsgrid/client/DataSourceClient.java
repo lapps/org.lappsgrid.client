@@ -16,16 +16,14 @@
  */
 package org.lappsgrid.client;
 
-import org.anc.soap.client.AbstractSoapClient;
-import org.apache.axis.encoding.ser.BeanDeserializerFactory;
-import org.apache.axis.encoding.ser.BeanSerializerFactory;
-import org.lappsgrid.api.Data;
-import org.lappsgrid.api.DataSource;
-import org.lappsgrid.api.InternalException;
-import org.lappsgrid.core.DataFactory;
-import org.lappsgrid.discriminator.Types;
 
-import javax.xml.namespace.QName;
+import org.lappsgrid.api.DataSource;
+import org.lappsgrid.serialization.Error;
+import org.lappsgrid.serialization.Serializer;
+import org.lappsgrid.serialization.datasource.Get;
+import org.lappsgrid.serialization.datasource.List;
+import org.lappsgrid.serialization.datasource.Size;
+
 import javax.xml.rpc.ServiceException;
 import java.rmi.RemoteException;
 
@@ -40,55 +38,70 @@ public class DataSourceClient extends AbstractSoapClient implements DataSource
    {
       super(endpoint, endpoint);
       super.setCredentials(username, password);
-      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
    public DataSourceClient(String namespace, String endpoint) throws ServiceException
    {
       super(namespace, endpoint);
-      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
+//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
+//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
+//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
+//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
    }
 
    @Override
-   public Data query(Data input)
+   public String execute(String input)
    {
-      Data[] args = { input };
-      Data result = null;
+      String result;
       try
       {
-         result = (Data) super.invoke("query", args);
+         result = super.callExecute(input).toString();
       }
       catch (RemoteException e)
       {
-         e.printStackTrace();
-         result = DataFactory.error(e.getMessage());
+         Error error = new Error();
+         error.setPayload(e.getMessage());
+         result = Serializer.toJson(error);
       }
       return result;
    }
 
-   public Data get(String key)
+	@Override
+	public String getMetadata()
+	{
+		String result;
+		try
+		{
+			result = super.callGetMetadata();
+		}
+		catch (RemoteException e)
+		{
+			result = new Error(e.getMessage()).asJson();
+		}
+		return result;
+	}
+
+   public String list()
    {
-      return this.query(DataFactory.get(key));
+      return dispatch(new List());
    }
 
-   public String[] list() throws InternalException
+   public String list(int start, int end)
    {
-      Data result = this.query(DataFactory.list());
-      if (result.getDiscriminator() == Types.ERROR)
-      {
-         throw new InternalException(result.getPayload());
-      }
-      String payload = result.getPayload();
-      if (payload == null)
-      {
-         return new String[0];
-      }
-      return payload.split("\\s+");
+      return dispatch(new List(start, end));
+   }
+
+   public String get(String key)
+   {
+      return dispatch(new Get(key));
+   }
+
+   public String size()
+   {
+      return dispatch(new Size());
    }
 }
