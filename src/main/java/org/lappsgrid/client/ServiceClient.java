@@ -16,22 +16,15 @@
  */
 package org.lappsgrid.client;
 
-import jp.go.nict.langrid.client.RequestAttributes;
-import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.lappsgrid.api.ProcessingService;
-import org.lappsgrid.serialization.Error;
+
 import javax.xml.rpc.ServiceException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.RemoteException;
 
 /**
  * @author Keith Suderman
  */
 public class ServiceClient extends AbstractClient implements ProcessingService
 {
-	private ProcessingService service;
-
    public ServiceClient(String url) throws ServiceException
    {
       super(url);
@@ -42,21 +35,4 @@ public class ServiceClient extends AbstractClient implements ProcessingService
 		super(endpoint, user, password);
 	}
 
-	/*
-	public void setToken(String token)
-	{
-		RequestAttributes attributes = (RequestAttributes) service;
-		attributes.addRequestMimeHeader("Authorization", "Bearer " + token);
-	}
-
-	public String getMetadata()
-   {
-      return service.getMetadata();
-	}
-
-   public String execute(String json)
-   {
-      return service.execute(json);
-   }
-   */
 }

@@ -41,8 +41,6 @@ import java.util.List;
  */
 public class DataSourceClient extends AbstractClient implements DataSource
 {
-//	private DataSource service;
-
 	public DataSourceClient(String endpoint) throws ServiceException
 	{
 		super(endpoint);
