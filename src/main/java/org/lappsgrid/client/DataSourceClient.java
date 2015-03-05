@@ -17,91 +17,78 @@
 package org.lappsgrid.client;
 
 
+import jp.go.nict.langrid.client.RequestAttributes;
+import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.lappsgrid.api.DataSource;
-import org.lappsgrid.serialization.Error;
+import org.lappsgrid.core.DataFactory;
+import org.lappsgrid.discriminator.Discriminators;
+import org.lappsgrid.serialization.Data;
 import org.lappsgrid.serialization.Serializer;
-import org.lappsgrid.serialization.datasource.Get;
-import org.lappsgrid.serialization.datasource.List;
-import org.lappsgrid.serialization.datasource.Size;
+import org.lappsgrid.serialization.datasource.ListRequest;
+import org.lappsgrid.serialization.datasource.SizeRequest;
 
 import javax.xml.rpc.ServiceException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Client class for objects that want to access LAPPS DataSources.
  *
  * @author Keith Suderman
  */
-public class DataSourceClient extends AbstractSoapClient implements DataSource
+public class DataSourceClient extends AbstractClient implements DataSource
 {
-   public DataSourceClient(String endpoint, String username, String password) throws ServiceException
-   {
-      super(endpoint, endpoint);
-      super.setCredentials(username, password);
-//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
-   }
+//	private DataSource service;
 
-   public DataSourceClient(String namespace, String endpoint) throws ServiceException
-   {
-      super(namespace, endpoint);
-//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
-   }
-
-   @Override
-   public String execute(String input)
-   {
-      String result;
-      try
-      {
-         result = super.callExecute(input).toString();
-      }
-      catch (RemoteException e)
-      {
-         Error error = new Error();
-         error.setPayload(e.getMessage());
-         result = Serializer.toJson(error);
-      }
-      return result;
-   }
-
-	@Override
-	public String getMetadata()
+	public DataSourceClient(String endpoint) throws ServiceException
 	{
-		String result;
-		try
-		{
-			result = super.callGetMetadata();
-		}
-		catch (RemoteException e)
-		{
-			result = new Error(e.getMessage()).asJson();
-		}
-		return result;
+		super(endpoint);
 	}
 
-   public String list()
+   public DataSourceClient(String endpoint, String username, String password) throws ServiceException
    {
-      return dispatch(new List());
+		super(endpoint, username, password);
    }
 
-   public String list(int start, int end)
+   public List<String> list()
    {
-      return dispatch(new List(start, end));
+		String json = service.execute(new ListRequest().asJson());
+		Data data = Serializer.parse(json, Data.class);
+		Object payload = data.getPayload();
+		List<String> result = new ArrayList<>();
+		if (data.getDiscriminator().equals(Discriminators.Uri.ERROR))
+		{
+			System.out.println(data.getPayload().toString());
+			return result;
+		}
+		if (payload instanceof List)
+		{
+			return (List<String>) payload;
+		}
+		result.add(payload.toString());
+		return result;
+//		return (List<String>) Serializer.parse(json, List.class);
+   }
+
+   public List<String> list(int start, int end)
+   {
+		String json = service.execute(DataFactory.list(start, end));
+		Data<List<String>> data = Serializer.parse(json, Data.class);
+		return data.getPayload();
    }
 
    public String get(String key)
    {
-      return dispatch(new Get(key));
+      return service.execute(DataFactory.get(key));
    }
 
-   public String size()
+   public int size()
    {
-      return dispatch(new Size());
+		String json = service.execute(new SizeRequest().asJson());
+		Data<Integer> data = Serializer.parse(json, Data.class);
+		return data.getPayload();
    }
 }

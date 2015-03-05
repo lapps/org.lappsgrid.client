@@ -16,110 +16,47 @@
  */
 package org.lappsgrid.client;
 
+import jp.go.nict.langrid.client.RequestAttributes;
+import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.lappsgrid.api.ProcessingService;
 import org.lappsgrid.serialization.Error;
 import javax.xml.rpc.ServiceException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
 
 /**
  * @author Keith Suderman
  */
-public class ServiceClient extends AbstractSoapClient implements ProcessingService
+public class ServiceClient extends AbstractClient implements ProcessingService
 {
+	private ProcessingService service;
+
    public ServiceClient(String url) throws ServiceException
    {
-      this(url, null, null);
+      super(url);
    }
 
-   public ServiceClient(String url, String user, String password) throws ServiceException
+   public ServiceClient(String endpoint, String user, String password) throws ServiceException
    {
-      super(url, url);
-      super.setCredentials(user, password);
-//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
-   }
+		super(endpoint, user, password);
+	}
 
-   public String getMetadata()
+	/*
+	public void setToken(String token)
+	{
+		RequestAttributes attributes = (RequestAttributes) service;
+		attributes.addRequestMimeHeader("Authorization", "Bearer " + token);
+	}
+
+	public String getMetadata()
    {
-      String json;
-		try
-		{
-			json = callGetMetadata();
-		}
-		catch (RemoteException e)
-		{
-			json = new Error(e.getMessage()).asJson();
-		}
-		return json;
+      return service.getMetadata();
 	}
 
    public String execute(String json)
    {
-      return dispatch(json);
-   }
-
-//   public ServiceClient(Server server, String endpoint) throws ServiceException
-//   {
-//      this(server.getUrl() + "/service_manager/invoker/" + endpoint, server.getUser(), server.getPassword());
-//   }
-
-//   @Override
-//   public long[] requires()
-//   {
-//      throw new UnsupportedOperationException("This method has been deprecated.");
-//   }
-//
-//   @Override
-//   public long[] produces()
-//   {
-//      throw new UnsupportedOperationException("This method has been deprecated.");
-//   }
-
-
-   /*
-   @Override
-   public Data getMetadata()
-   {
-      try
-      {
-         return (Data) super.invoke("getMetadata");
-      }
-      catch (RemoteException e)
-      {
-         return DataFactory.error(e.getMessage());
-      }
-   }
-
-   @Override
-   public Data execute(Data input)
-   {
-      Object[] args = { input };
-      try
-      {
-         return (Data) super.invoke("execute", args);
-      }
-      catch (RemoteException e)
-      {
-         //TODO This error should be logged.
-         return DataFactory.error(e.getMessage());
-      }
-   }
-
-   @Override
-   public Data configure(Data config)
-   {
-      Object[] args = { config };
-      try
-      {
-         return (Data) super.invoke("configure", args);
-      }
-      catch (RemoteException e)
-      {
-         //TODO This error should be logged.
-         return DataFactory.error(e.getMessage());
-      }
+      return service.execute(json);
    }
    */
 }
