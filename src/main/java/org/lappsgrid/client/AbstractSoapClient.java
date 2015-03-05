@@ -32,7 +32,7 @@ import org.lappsgrid.serialization.Error;
  * }
  * </pre>
  * @author Keith Suderman
- *
+// * @deprecated Use clients created by the Service Grid's SoapClientFactory instead.
  */
 public abstract class AbstractSoapClient
 {

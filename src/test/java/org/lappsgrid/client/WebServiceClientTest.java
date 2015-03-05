@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.lappsgrid.api.WebService;
-import org.lappsgrid.discriminator.Types;
 
 import javax.xml.rpc.ServiceException;
 

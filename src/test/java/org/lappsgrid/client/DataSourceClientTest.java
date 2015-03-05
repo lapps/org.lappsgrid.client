@@ -1,23 +1,28 @@
 package org.lappsgrid.client;
 
+import jp.go.nict.langrid.client.RequestAttributes;
+import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.lappsgrid.api.LappsException;
-import org.lappsgrid.discriminator.Constants;
-import org.lappsgrid.discriminator.DiscriminatorRegistry;
-import org.lappsgrid.discriminator.Types;
-import org.lappsgrid.discriminator.Uri;
+import org.lappsgrid.api.DataSource;
+import org.lappsgrid.api.WebService;
+import org.lappsgrid.serialization.Data;
 import org.lappsgrid.serialization.Serializer;
-import org.lappsgrid.serialization.datasource.List;
-import org.springframework.stereotype.Service;
+import org.lappsgrid.serialization.datasource.ListRequest;
+import org.lappsgrid.serialization.lif.Container;
 
 import javax.xml.rpc.ServiceException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.lappsgrid.discriminator.Discriminators.Uri;
 
 /**
  * @author Keith Suderman
@@ -28,8 +33,8 @@ public class DataSourceClientTest
 //   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
 //   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
 
-   public static final String USER = "temporary";
-   public static final String PASS = "temporary";
+   public static final String USER = "operator";
+   public static final String PASS = "operator";
 
 
    public DataSourceClientTest()
@@ -37,16 +42,120 @@ public class DataSourceClientTest
 
    }
 
-   @Test
-   public void testDataSource() throws ServiceException
-   {
-      ServiceClient client = new ServiceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
-      String json = Serializer.toJson(new List());
-      json = client.execute(json);
-      Map response = Serializer.parse(json, HashMap.class);
-      assertFalse(response.get("payload").toString(), Constants.Uri.ERROR.equals(response.get("discriminator").toString()));
-      //System.out.println(response);
-   }
+	@Ignore
+	public void testSetToken() throws ServiceException, RemoteException
+	{
+		System.out.println("DataSourceClientTest.testSetToken");
+		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource");
+		client.setToken("123abc");
+		List<String> list = client.list();
+		assertTrue(list.size() == 392);
+	}
+
+	@Ignore
+	public void testServiceGridToken() throws ServiceException
+	{
+		System.out.println("DataSourceClientTest.testServiceGridToken");
+		DataSourceClient client = new DataSourceClient("http://localhost:8080/service_manager/invoker/picard:masc.text_2.0.0-SNAPSHOT", "operator", "operator");
+		client.setToken("123abc");
+		List<String> list = client.list();
+		assertTrue("Expected 392 found " + list.size(), list.size() == 392);
+	}
+
+	@Ignore
+	public void testConverterMetadata() throws ServiceException, RemoteException
+	{
+//		TestClient client = new TestClient();
+//		System.out.println(client.callGetMetadata());
+
+		String url = "http://localhost:9080/GateConverter/1.0.0-SNAPSHOT/services/GateToJson";
+		WebService service = new ServiceClient(url, null, null);
+		String json = service.getMetadata();
+		System.out.println(json);
+	}
+
+	@Test
+	public void testSoapClientFactory() throws MalformedURLException
+	{
+		URL url = new URL("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource");
+		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
+
+		RequestAttributes attributes = (RequestAttributes) service;
+		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
+		attributes.addRequestMimeHeader("OAuth-Authorization", "Bearer 123abc");
+		String result = service.execute(new ListRequest(0,10).asJson());
+		assertNotNull(result);
+		Data<Object> data = Serializer.parse(result, Data.class);
+		assertNotEquals(data.getPayload().toString(), data.getDiscriminator(), Uri.ERROR);
+		System.out.println(result);
+	}
+
+	@Test
+	public void testServiceGridSoapClientFactory() throws MalformedURLException
+	{
+		URL url = new URL("http://localhost:8080/service_manager/invoker/picard:masc.text_2.0.0-SNAPSHOT");
+		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
+
+		RequestAttributes attributes = (RequestAttributes) service;
+		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
+		attributes.addRequestMimeHeader("OAuth-Authorization", "Bearer 123abc");
+		String result = service.execute(new ListRequest(0,10).asJson());
+		assertNotNull(result);
+		Data<Object> data = Serializer.parse(result, Data.class);
+		assertNotEquals(data.getPayload().toString(), data.getDiscriminator(), Uri.ERROR);
+		System.out.println(result);
+	}
+
+//   @Ignore
+//   public void testDataSource() throws ServiceException
+//   {
+//      DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+//		RequestAttributes attributes = (RequestAttributes) client;
+//		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
+//		attributes.addRequestMimeHeader("X-OAUTH-TOKEN", UUID.randomUUID().toString());
+//      String json = Serializer.toJson(new ListRequest());
+//      json = client.execute(json);
+//      Map response = Serializer.parse(json, HashMap.class);
+//		String discriminator = response.get("discriminator").toString();
+//		Object payload = response.get("payload");
+//      assertFalse(payload.toString(), Uri.ERROR.equals(discriminator));
+//      //System.out.println(response);
+//   }
+
+	@Ignore
+	public void testDataSourceList() throws ServiceException
+	{
+		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+		//String json = DataFactory.list()
+		java.util.List<String> list = client.list();
+		assertTrue(list.size() > 0);
+		assertTrue(list.size() == client.size());
+		assertTrue(client.size() == 392);
+	}
+
+	@Ignore
+	public void testDataSourceListWithOffsets() throws ServiceException
+	{
+		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+		//String json = DataFactory.list()
+		List<String> list = client.list(0, 100);
+		assertTrue("Invalid list size, expected 100 found " + list.size(), list.size() == 100);
+	}
+
+	@Ignore
+	public void testDataSourceGet() throws ServiceException
+	{
+		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
+		//String json = DataFactory.list()
+		List<String> list = client.list();
+		assertTrue(list.size() == 392);
+		String json = client.get(list.get(0));
+		Data<String> data = Serializer.parse(json, Data.class);
+		assertEquals(data.getDiscriminator(), Uri.TEXT);
+		String text = data.getPayload();
+		System.out.println(text);
+	}
+
    /*
    @Test
    public void testQuery() throws ServiceException
