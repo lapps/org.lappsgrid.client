@@ -17,8 +17,6 @@
 package org.lappsgrid.client;
 
 
-import jp.go.nict.langrid.client.RequestAttributes;
-import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.lappsgrid.api.DataSource;
 import org.lappsgrid.core.DataFactory;
 import org.lappsgrid.discriminator.Discriminators;
@@ -28,14 +26,12 @@ import org.lappsgrid.serialization.datasource.ListRequest;
 import org.lappsgrid.serialization.datasource.SizeRequest;
 
 import javax.xml.rpc.ServiceException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Client class for objects that want to access LAPPS DataSources.
+ * The DataSourceClient provides several helper methods that parse the JSON
+ * returned by the service into normal Java types.
  *
  * @author Keith Suderman
  */

@@ -21,6 +21,9 @@ import org.lappsgrid.api.ProcessingService;
 import javax.xml.rpc.ServiceException;
 
 /**
+ * The ServiceClient does not add any functionality, it is simply provides
+ * a way to instantiate the AbstractClient.
+ *
  * @author Keith Suderman
  */
 public class ServiceClient extends AbstractClient implements ProcessingService
