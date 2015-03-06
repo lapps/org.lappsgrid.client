@@ -12,7 +12,7 @@ The `clients` module provides SOAP clients for accessing LAPPS web services.
 </dependency>
 ```
 
-## DataSource Clients
+## DataSourceClient
 
 The `org.lappsgrid.client.DataSourceClient` class provides several helper methods
 that parse the JSON returned by LAPPS web services into useful Java types.
