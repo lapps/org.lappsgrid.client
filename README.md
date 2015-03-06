@@ -17,3 +17,19 @@ The `clients` module provides SOAP clients for accessing LAPPS web services.
 The `org.lappsgrid.client.DataSourceClient` class provides several helper methods
 that parse the JSON returned by LAPPS web services into useful Java types.
 
+```java
+int size();
+List<String> list();
+List<String> list(int start, int end);
+String get(String key);
+void setToken(String token);
+```
+
+For example:
+```java
+DataSourceClient client = new DataSourceClient(url, username, password);
+client.setToken(my_oauth_token);
+List<String> keys = client.list();
+String text = client.get(keys.getAt(0)); 
+```
+
