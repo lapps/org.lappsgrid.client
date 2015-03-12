@@ -50,7 +50,7 @@ public abstract class AbstractClient
 		String header = "Bearer " + token;
 		RequestAttributes attributes = (RequestAttributes) service;
 		attributes.addRequestMimeHeader("Authorization", header);
-		attributes.addRequestMimeHeader("OAuth-Authorization", header);
+		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization", header);
 	}
 
 	public String execute(String input)
