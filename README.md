@@ -8,7 +8,7 @@ The `clients` module provides SOAP clients for accessing LAPPS web services.
 <dependency>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 

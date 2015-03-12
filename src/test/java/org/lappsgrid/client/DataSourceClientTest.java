@@ -81,7 +81,7 @@ public class DataSourceClientTest
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization: ", "Bearer oauth");
+//		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization: ", "Bearer oauth");
 		attributes.addRequestMimeHeader("Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
@@ -97,7 +97,7 @@ public class DataSourceClientTest
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-		attributes.addRequestMimeHeader("Authorization: ", "Bearer 123abc");
+//		attributes.addRequestMimeHeader("Authorization: ", "Bearer 123abc");
 		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
