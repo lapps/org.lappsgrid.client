@@ -74,15 +74,15 @@ public class DataSourceClientTest
 		System.out.println(json);
 	}
 
-	@Test
+	@Ignore
 	public void testSoapClientFactory() throws MalformedURLException
 	{
 		URL url = new URL("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource");
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
-		attributes.addRequestMimeHeader("OAuth-Authorization", "Bearer 123abc");
+		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization: ", "Bearer oauth");
+		attributes.addRequestMimeHeader("Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
 		Data<Object> data = Serializer.parse(result, Data.class);
@@ -90,15 +90,15 @@ public class DataSourceClientTest
 		System.out.println(result);
 	}
 
-	@Test
+	@Ignore
 	public void testServiceGridSoapClientFactory() throws MalformedURLException
 	{
 		URL url = new URL("http://localhost:8080/service_manager/invoker/picard:masc.text_2.0.0-SNAPSHOT");
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
-		attributes.addRequestMimeHeader("OAuth-Authorization", "Bearer 123abc");
+		attributes.addRequestMimeHeader("Authorization: ", "Bearer 123abc");
+		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
 		Data<Object> data = Serializer.parse(result, Data.class);

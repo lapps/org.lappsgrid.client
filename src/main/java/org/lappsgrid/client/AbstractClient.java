@@ -2,7 +2,6 @@ package org.lappsgrid.client;
 
 import jp.go.nict.langrid.client.RequestAttributes;
 import jp.go.nict.langrid.client.soap.SoapClientFactory;
-import org.lappsgrid.api.DataSource;
 import org.lappsgrid.api.WebService;
 import org.lappsgrid.core.DataFactory;
 
@@ -11,6 +10,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * The AbstractClient provides all of the functionality needed to interact
+ * with a LAPPS web service.
+ *
  * @author Keith Suderman
  */
 public abstract class AbstractClient
@@ -22,7 +24,7 @@ public abstract class AbstractClient
 		try
 		{
 			URL url = new URL(endpoint);
-			service = new SoapClientFactory().create(DataSource.class, url);
+			service = new SoapClientFactory().create(WebService.class, url);
 		}
 		catch (MalformedURLException e)
 		{
@@ -35,7 +37,7 @@ public abstract class AbstractClient
 		try
 		{
 			URL url = new URL(endpoint);
-			service = new SoapClientFactory().create(DataSource.class, url, username, password);
+			service = new SoapClientFactory().create(WebService.class, url, username, password);
 		}
 		catch (MalformedURLException e)
 		{
@@ -46,11 +48,9 @@ public abstract class AbstractClient
 	public void setToken(String token)
 	{
 		String header = "Bearer " + token;
-//		System.out.println("AbstractClient.setToken: Setting the access token: " + header);
 		RequestAttributes attributes = (RequestAttributes) service;
 		attributes.addRequestMimeHeader("Authorization", header);
-		System.out.println("Setting OAuth-Authorization header to " + header);
-		attributes.addRequestMimeHeader("OAuth-Authorization", header);
+		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization", header);
 	}
 
 	public String execute(String input)
