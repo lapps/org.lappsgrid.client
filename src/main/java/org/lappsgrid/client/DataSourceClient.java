@@ -52,6 +52,14 @@ public class DataSourceClient extends AbstractClient implements DataSource
 		String json = service.execute(new ListRequest().asJson());
 		Data data = Serializer.parse(json, Data.class);
 		Object payload = data.getPayload();
+		if (payload == null) {
+			System.out.println("Service did not return a payload.");
+			System.out.println("Discriminator is: " + data.getDiscriminator());
+			System.out.println(json);
+			return null;
+		}
+		System.out.println("Payload is a " + payload.getClass().getCanonicalName());
+		System.out.println(payload.toString());
 		List<String> result = new ArrayList<>();
 		if (data.getDiscriminator().equals(Discriminators.Uri.ERROR))
 		{

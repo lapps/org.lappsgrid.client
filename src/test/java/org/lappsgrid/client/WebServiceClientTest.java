@@ -22,23 +22,27 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.lappsgrid.api.WebService;
+import org.lappsgrid.serialization.Data;
+import org.lappsgrid.serialization.Serializer;
 
 import javax.xml.rpc.ServiceException;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-//import static org.lappsgrid.discriminator.Helpers.type;
+import java.util.Map;
+
+import static org.junit.Assert.*;
+import static org.lappsgrid.discriminator.Discriminators.Uri;
 
 /**
  * @author Keith Suderman
  */
-@Ignore
+//@Ignore
 public class WebServiceClientTest
 {
    public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
-   public static final String WEBSERVICE_URL = ROOT_URL + "/anc:test.webservice_1.0.0";
-   public static final String USER = "temporary";
-   public static final String PASS = "temporary";
+//   public static final String WEBSERVICE_URL = ROOT_URL + "/anc:test.webservice_1.0.0";
+   public static final String WEBSERVICE_URL = ROOT_URL + "/anc:gate.tokenizer_2.0.0";
+   public static final String USER = "tester";
+   public static final String PASS = "tester";
 
 
    protected WebService service;
@@ -48,7 +52,6 @@ public class WebServiceClientTest
 
    }
 
-   /*
    @Before
    public void setup() throws ServiceException
    {
@@ -64,11 +67,14 @@ public class WebServiceClientTest
    @Test
    public void testConfigure()
    {
-      Data result = service.configure(null);
-      assertNotNull(result);
-      assertTrue(type(result) == Types.TEXT);
+      String json = service.getMetadata();
+      assertNotNull(json);
+      Data data = Serializer.parse(json, Data.class);
+      assertFalse(data.getPayload().toString(), Uri.ERROR.equals(data.getDiscriminator()));
+      assertTrue("Invalid discriminator " + data.getDiscriminator(), Uri.META.equals(data.getDiscriminator()));
    }
 
+/*
    @Test
    public void testExecute()
    {

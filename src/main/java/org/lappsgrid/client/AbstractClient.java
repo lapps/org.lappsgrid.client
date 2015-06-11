@@ -82,7 +82,7 @@ public abstract class AbstractClient
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 			return DataFactory.error(e.getMessage());
 		}
 	}
