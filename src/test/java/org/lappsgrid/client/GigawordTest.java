@@ -1,6 +1,13 @@
 package org.lappsgrid.client;
 
 import org.junit.Ignore;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import org.lappsgrid.serialization.Data;
+
+import javax.xml.rpc.ServiceException;
+import java.util.List;
 
 /**
  * @author Keith Suderman
@@ -10,12 +17,11 @@ public class GigawordTest
 {
 //   private static final String NAMESPACE = "http://langrid.nict.go.jp/ws_1_2/";
 //   private static final String ENDPOINT = "http://grid.ldc.upenn.edu:8080/doc_service/services/DocumentDataSource";
-   public static final String url = "http://grid.ldc.upenn.edu:8080/doc_service/services/DocumentDataSource";
-
+//   public static final String url = "http://grid.ldc.upenn.edu:8080/doc_service/services/DocumentDataSource";
+   public static final String url = "http://grid.ldc.upenn.edu:8080/doc_service/services/GWENDataSource";
    public static final String username = "operator";
    public static final String password = "operator";
 
-   /*
    public GigawordTest()
    {
 
@@ -24,16 +30,20 @@ public class GigawordTest
    @Test
    public void testList() throws ServiceException
    {
-      DataSource client = new DataSourceClient(url, username, password);
-      Data data = client.query(DataFactory.list());
-      assertTrue(data != null);
-      assertTrue(type(data) != Types.ERROR);
-
-      String[] index = data.getPayload().split("\\s+");
-      assertTrue(index.length > 1);
-      System.out.println("Index size is " + index.length);
+      DataSourceClient client = new DataSourceClient(url, username, password);
+      List<String> list = client.list();
+      assertNotNull(list);
+      assertTrue(list.size() > 0);
+//      Data data = client.list();
+//      assertTrue(data != null);
+//      assertTrue(type(data) != Types.ERROR);
+//
+//      String[] index = data.getPayload().split("\\s+");
+//      assertTrue(index.length > 1);
+//      System.out.println("Index size is " + index.length);
    }
 
+   /*
 
    @Test
    public void testGet() throws ServiceException
