@@ -1,4 +1,4 @@
-/*
+/*-
  * Copyright 2014 The Language Application Grid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,6 @@
  * limitations under the License.
  *
  */
-
 package org.lappsgrid.client;
 import java.rmi.RemoteException;
 
