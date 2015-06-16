@@ -31,7 +31,7 @@ site:
 	git commit -a -m "Removed old files from gh-pages."
 	git push origin gh-pages
 	cp -r target/site/apidocs/* .
-	git add *.html *.git *.ico org resources
+	git add *.html *.gif *.ico org resources
 	git commit -a -m "Added new files."
 	git push origin gh-pages
 	git checkout $(BRANCH)
