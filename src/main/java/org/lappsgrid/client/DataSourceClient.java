@@ -47,6 +47,11 @@ public class DataSourceClient extends AbstractClient implements DataSource
 		super(endpoint, username, password);
    }
 
+	/**
+	 * Sends LIST request (<a href="http://vocab.lappsgrid.org/ns/action/list">http://vocab.lappsgrid.org/ns/action/list</a>)
+	 * to the data source
+	 * @return A list of document ID values.
+	 */
    public List<String> list()
    {
 		String json = service.execute(new ListRequest().asJson());

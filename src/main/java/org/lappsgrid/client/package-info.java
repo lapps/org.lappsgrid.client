@@ -14,4 +14,8 @@
  * limitations under the License.
  *
  */
+
+/**
+ * Clients that can be used to access web services running on the Lappsgrid.
+ */
 package org.lappsgrid.client;
