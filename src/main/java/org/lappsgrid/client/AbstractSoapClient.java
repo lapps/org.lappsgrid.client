@@ -17,7 +17,6 @@
 package org.lappsgrid.client;
 import java.rmi.RemoteException;
 
-//import javax.xml.crypto.Data;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.ServiceException;
 
@@ -25,15 +24,13 @@ import org.apache.axis.client.Call;
 import org.apache.axis.client.Service;
 import org.lappsgrid.serialization.*;
 import org.lappsgrid.serialization.Error;
-//import org.apache.axis.encoding.ser.BeanDeserializerFactory;
-//import org.apache.axis.encoding.ser.BeanSerializerFactory;
 
 /**
- * The AbstractSoapClient manages the Axis Service and Call objects
- * and is used invokes methods on the remote service.
+ * This class is not used and will be deprecated in an upcoming release.
  * <p>
- * Typically users will extend the AbstractSoapClient to provide
- * Java methods that invoke the service methods.
+ * The AbstractSoapClient manages the Axis Service and Call objects
+ * and is used invokes methods on the remote service. Typically users will
+ * extend the AbstractSoapClient to provide Java methods that invoke the service methods.
  * <pre>
  * class CustomSoapClient extends AbstractSoapClient {
  *    public CustomSoapClient() {
@@ -47,8 +44,10 @@ import org.lappsgrid.serialization.Error;
  *    ...
  * }
  * </pre>
+ * <b>NOTE:</b> Users should use the clients created by the Service Grid's
+ * SoapClientFactory instead.
+ *
  * @author Keith Suderman
-// * @deprecated Use clients created by the Service Grid's SoapClientFactory instead.
  */
 public abstract class AbstractSoapClient
 {
@@ -62,10 +61,6 @@ public abstract class AbstractSoapClient
 	{
 		service = new Service();
 		call = (Call) service.createCall();
-//      QName q = new QName ("uri:org.lappsgrid.api/", "Data");
-//      BeanSerializerFactory serializer =   new BeanSerializerFactory(Data.class,q);   // step 2
-//      BeanDeserializerFactory deserializer = new BeanDeserializerFactory(Data.class,q);  // step 3
-//      call.registerTypeMapping(Data.class, q, serializer, deserializer); //step 4
 	}
 
 	public AbstractSoapClient(String namespace) throws ServiceException
