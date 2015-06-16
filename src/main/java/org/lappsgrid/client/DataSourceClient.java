@@ -48,8 +48,14 @@ public class DataSourceClient extends AbstractClient implements DataSource
    }
 
 	/**
-	 * Sends LIST request (<a href="http://vocab.lappsgrid.org/ns/action/list">http://vocab.lappsgrid.org/ns/action/list</a>)
-	 * to the data source
+	 * Sends a LIST request (<a href="http://vocab.lappsgrid.org/ns/action/list">http://vocab.lappsgrid.org/ns/action/list</a>)
+	 * to the data source and parse the result into a {@link java.util.List} of strings.
+	 * <p>Users should be prepared to handle cases where a Datasource refuses to respond to
+	 * list requests.  In these cases the Datasource will return a Data object with the discriminator
+	 * set to <a href="http://vocab.lappsgrid.org/ns/error">http://vocab.lappsgrid.org/ns/error</a>.
+	 * In these cases uses should call the {@link DataSourceClient#size()} method the
+	 * {@link DataSourceClient#list(int, int)} method to paginate the index.
+	 *
 	 * @return A list of document ID values.
 	 */
    public List<String> list()
@@ -77,9 +83,15 @@ public class DataSourceClient extends AbstractClient implements DataSource
 		}
 		result.add(payload.toString());
 		return result;
-//		return (List<String>) Serializer.parse(json, List.class);
    }
 
+	/**
+	 * Sends LIST request (<a href="http://vocab.lappsgrid.org/ns/action/list">http://vocab.lappsgrid.org/ns/action/list</a>)
+	 * with {@code start} and {@code end} offsets to the data source and parse the result into a {@link java.util.List}
+	 * of strings.
+	 *
+	 * @return A list of document ID values.
+	 */
    public List<String> list(int start, int end)
    {
 		String json = service.execute(DataFactory.list(start, end));
@@ -87,11 +99,25 @@ public class DataSourceClient extends AbstractClient implements DataSource
 		return data.getPayload();
    }
 
+	/**
+	 * Retrieves a single document from the datasource.
+	 *
+	 * @param key a document ID.
+	 * @return the document from the data source.  Typically this will be a LIF container
+	 * inside a Data object.
+	 */
    public String get(String key)
    {
       return service.execute(DataFactory.get(key));
    }
 
+	/**
+	 * Returns the number of documents in the datasource.
+	 * <p>
+	 * Datasources containing a large number of documents may refuse to return a full listing
+	 * of document IDs.
+	 * @return
+	 */
    public int size()
    {
 		String json = service.execute(new SizeRequest().asJson());
