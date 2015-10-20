@@ -10,8 +10,8 @@
     -->
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
-        <artifactId>war-parent-pom</artifactId>
-        <version>2.0.3</version>
+        <artifactId>parent-pom</artifactId>
+        <version>2.0.1</version>
     </parent>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
@@ -43,7 +43,6 @@
             <artifactId>core</artifactId>
             <version>${core.version}</version>
         </dependency>
-        <!--
         <dependency>
             <groupId>net.servicegrid</groupId>
             <artifactId>jp.go.nict.langrid.client</artifactId>
@@ -54,11 +53,31 @@
             <artifactId>jp.go.nict.langrid.client.soap</artifactId>
             <version>1.0.5</version>
         </dependency>
+
+        <!-- TODO
+             Apache axis dependencies are only required by the AbstractSoapClient
+             class, which is due for removal. Once AbstractSoapClient has been
+             removed these dependencies can be removed as well.
+        -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-saaj</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!--
         <dependency>
             <groupId>net.servicegrid</groupId>
-            <artifactId>
-                jp.go.nict.langrid.servicecontainer
-            </artifactId>
+            <artifactId>jp.go.nict.langrid.commons</artifactId>
             <version>1.0.5</version>
         </dependency>
         <dependency>
@@ -69,14 +88,16 @@
             <version>1.0.5</version>
         </dependency>
         <dependency>
+            <groupId>net.servicegrid</groupId>
+            <artifactId>
+                jp.go.nict.langrid.servicecontainer
+            </artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>9.3.0.M1</version>
-        </dependency>
-        <dependency>
-            <groupId>net.servicegrid</groupId>
-            <artifactId>jp.go.nict.langrid.commons</artifactId>
-            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -89,26 +110,15 @@
             <version>0.5</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis-jaxrpc</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis-saaj</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>axis</groupId>
-            <artifactId>axis-wsdl4j</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
         -->
+        <dependency>
+            <groupId>axis</groupId>
+            <artifactId>axis-wsdl4j</artifactId>
+            <version>1.5.1</version>
+        </dependency>
     </dependencies>
 </project>
