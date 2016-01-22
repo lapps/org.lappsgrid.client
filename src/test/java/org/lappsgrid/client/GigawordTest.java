@@ -27,6 +27,7 @@ import javax.xml.rpc.ServiceException;
 import java.util.List;
 
 /**
+ * These tests fail without a valid OAuth token from the LDC.
  * @author Keith Suderman
  */
 @Ignore
