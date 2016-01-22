@@ -25,6 +25,7 @@ import org.apache.axis.client.Service;
 import org.lappsgrid.serialization.*;
 import org.lappsgrid.serialization.Error;
 
+// TODO Remove the Apache axis dependencies from the pom when the AbstractSoapClient class is removed.
 /**
  * This class is not used and will be deprecated in an upcoming release.
  * <p>
