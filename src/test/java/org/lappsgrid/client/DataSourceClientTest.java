@@ -21,6 +21,7 @@ import jp.go.nict.langrid.client.RequestAttributes;
 import jp.go.nict.langrid.client.soap.SoapClientFactory;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.Assert.*;
 import org.lappsgrid.api.DataSource;
 import org.lappsgrid.api.WebService;
 import org.lappsgrid.serialization.Data;
@@ -103,7 +104,8 @@ public class DataSourceClientTest
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
 		Data<Object> data = Serializer.parse(result, Data.class);
-		assertNotEquals(data.getPayload().toString(), data.getDiscriminator(), Uri.ERROR);
+
+		assertFalse(data.getPayload().toString(), data.getDiscriminator().equals(Uri.ERROR));
 		System.out.println(result);
 	}
 
@@ -119,7 +121,7 @@ public class DataSourceClientTest
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
 		Data<Object> data = Serializer.parse(result, Data.class);
-		assertNotEquals(data.getPayload().toString(), data.getDiscriminator(), Uri.ERROR);
+		assertFalse(data.getPayload().toString(), data.getDiscriminator().equals(Uri.ERROR));
 		System.out.println(result);
 	}
 
