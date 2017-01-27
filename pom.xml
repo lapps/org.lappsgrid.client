@@ -44,8 +44,8 @@
     </build>
     <properties>
         <api.version>2.0.1</api.version>
-        <core.version>2.0.2</core.version>
-        <serialization.version>2.3.2-SNAPSHOT</serialization.version>
+        <core.version>2.0.3</core.version>
+        <serialization.version>2.4.0</serialization.version>
     </properties>
     <dependencies>
         <dependency>
