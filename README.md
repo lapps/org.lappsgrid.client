@@ -2,13 +2,15 @@
 
 The `clients` module provides SOAP clients for accessing LAPPS web services.
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.lappsgrid/client/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/org.lappsgrid/client)
+
 ### Maven Coordinates
 
 ```xml
 <dependency>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.4</version>
 </dependency>
 ```
 
