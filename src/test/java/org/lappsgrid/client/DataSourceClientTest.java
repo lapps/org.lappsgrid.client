@@ -48,8 +48,6 @@ import static org.lappsgrid.discriminator.Discriminators.Uri;
 //@Ignore
 public class DataSourceClientTest
 {
-//   public static final String ROOT_URL = "http://grid.anc.org:8080/service_manager/invoker";
-//   public static final String DATASOURCE_URL = ROOT_URL + "/anc:test.datasource_1.0.0";
 
    public static final String USER = "operator";
    public static final String PASS = "operator";
@@ -83,9 +81,6 @@ public class DataSourceClientTest
 	@Ignore
 	public void testConverterMetadata() throws ServiceException, RemoteException
 	{
-//		TestClient client = new TestClient();
-//		System.out.println(client.callGetMetadata());
-
 		String url = "http://localhost:9080/GateConverter/1.0.0-SNAPSHOT/services/GateToJson";
 		WebService service = new ServiceClient(url, null, null);
 		String json = service.getMetadata();
@@ -99,7 +94,6 @@ public class DataSourceClientTest
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-//		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization: ", "Bearer oauth");
 		attributes.addRequestMimeHeader("Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
@@ -116,7 +110,6 @@ public class DataSourceClientTest
 		DataSource service = new SoapClientFactory().create(DataSource.class, url,  USER, PASS);
 
 		RequestAttributes attributes = (RequestAttributes) service;
-//		attributes.addRequestMimeHeader("Authorization: ", "Bearer 123abc");
 		attributes.addRequestMimeHeader("X-Langrid-Service-Authorization", "Bearer 123abc");
 		String result = service.execute(new ListRequest(0,10).asJson());
 		assertNotNull(result);
@@ -125,27 +118,11 @@ public class DataSourceClientTest
 		System.out.println(result);
 	}
 
-//   @Ignore
-//   public void testDataSource() throws ServiceException
-//   {
-//      DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
-//		RequestAttributes attributes = (RequestAttributes) client;
-//		attributes.addRequestMimeHeader("X-WWW-Authentication: ", "oauth");
-//		attributes.addRequestMimeHeader("X-OAUTH-TOKEN", UUID.randomUUID().toString());
-//      String json = Serializer.toJson(new ListRequest());
-//      json = client.execute(json);
-//      Map response = Serializer.parse(json, HashMap.class);
-//		String discriminator = response.get("discriminator").toString();
-//		Object payload = response.get("payload");
-//      assertFalse(payload.toString(), Uri.ERROR.equals(discriminator));
-//      //System.out.println(response);
-//   }
 
 	@Ignore
 	public void testDataSourceList() throws ServiceException
 	{
 		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
-		//String json = DataFactory.list()
 		java.util.List<String> list = client.list();
 		assertTrue(list.size() > 0);
 		assertTrue(list.size() == client.size());
@@ -156,7 +133,6 @@ public class DataSourceClientTest
 	public void testDataSourceListWithOffsets() throws ServiceException
 	{
 		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
-		//String json = DataFactory.list()
 		List<String> list = client.list(0, 100);
 		assertTrue("Invalid list size, expected 100 found " + list.size(), list.size() == 100);
 	}
@@ -165,7 +141,6 @@ public class DataSourceClientTest
 	public void testDataSourceGet() throws ServiceException
 	{
 		DataSourceClient client = new DataSourceClient("http://localhost:9080/MascDataSource/2.0.0-SNAPSHOT/services/MascTextSource", null, null);
-		//String json = DataFactory.list()
 		List<String> list = client.list();
 		assertTrue(list.size() == 392);
 		String json = client.get(list.get(0));
@@ -175,44 +150,4 @@ public class DataSourceClientTest
 		System.out.println(text);
 	}
 
-   /*
-   @Test
-   public void testQuery() throws ServiceException
-   {
-      DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
-      Data get = DataFactory.get("foo");
-      Data result = client.query(get);
-      long type = DiscriminatorRegistry.getType(result.getDiscriminator());
-      assertTrue(type == Types.OK);
-
-      Data list = DataFactory.list();
-      result = client.query(list);
-      type = DiscriminatorRegistry.getType(result.getDiscriminator());
-      assertTrue(type == Types.OK);
-   }
-
-   @Test
-   public void testGet() throws ServiceException
-   {
-      DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
-      Data result = client.get("foo");
-      long type = DiscriminatorRegistry.getType(result.getDiscriminator());
-      assertTrue(type == Types.OK);
-   }
-
-   // This test will always fails as the TestDataSource service's query method
-   // always just returns a Data object with the discriminator set to OK and a
-   // null payload.  This causes an NPE when the client attempts to
-   @Ignore
-   public void testList() throws ServiceException, LappsException
-   {
-      DataSourceClient client = new DataSourceClient(DATASOURCE_URL, USER, PASS);
-      Data data = client.list();
-      assertTrue(data != null);
-      assertTrue(Uri.ONE_PER_LINE.equals(data.getDiscriminator()));
-      String[] index = data.getPayload().split("\n");
-      assertTrue(index.length > 0);
-      System.out.println("Index size is " + index.length);
-   }
-   */
 }
