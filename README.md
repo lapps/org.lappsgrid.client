@@ -16,7 +16,7 @@ The `clients` module provides SOAP clients for accessing LAPPS web services.
 <dependency>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
-    <version>2.0.5</version>
+    <version>${see.above}</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ a DataSourceClient you will need the URL of the service as well as the username 
 password for the service grid.
 
 
-```java
+```
 int size();
 List<String> list();
 List<String> list(int start, int end);
@@ -37,7 +37,7 @@ void setToken(String token);
 ```
 
 For example:
-```java
+```
 DataSourceClient client = new DataSourceClient(url, username, password);
 client.setToken(my_oauth_token);
 List<String> keys = client.list();
