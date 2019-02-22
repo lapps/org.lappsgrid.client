@@ -35,27 +35,22 @@
     <build>
         <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
     </build>
-    <properties>
-        <api.version>2.0.1</api.version>
-        <core.version>2.1.0-SNAPSHOT</core.version>
-        <serialization.version>2.7.0-SNAPSHOT</serialization.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>api</artifactId>
-            <version>${api.version}</version>
+            <version>${lapps.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>serialization</artifactId>
-            <version>${serialization.version}</version>
+            <version>${lapps.serialization.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>core</artifactId>
-            <version>${core.version}</version>
+            <version>${lapps.core.version}</version>
         </dependency>
         <dependency>
             <groupId>net.servicegrid</groupId>
