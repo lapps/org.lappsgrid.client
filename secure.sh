@@ -6,7 +6,7 @@
 source $HOME/.passphrases
 
 KEYS="GH_USER GH_PASS SONATYPE_USERNAME SONATYPE_PASSWORD PGP_PASSPHRASE ENCRYPTION_PASSWORD"
-REPO=$(git remote show origin | grep Push | cut -d/ -f4,5 | sed 's/\.git$//g')
+REPO=$(git remote get-url origin | cut -d: -f2 | sed 's/.git//')
 
 function encrypt() {
 	name=$1
