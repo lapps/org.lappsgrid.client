@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.lappsgrid.maven</groupId>
         <artifactId>parent-pom</artifactId>
-        <version>2.2.0</version>
+        <version>2.2.3</version>
     </parent>
     <groupId>org.lappsgrid</groupId>
     <artifactId>client</artifactId>
-    <version>2.0.7</version>
+    <version>2.1.0</version>
     <name>LAPPS Clients</name>
     <description>Classes used in client side code to access datasources and services on the LAPPS grid.</description>
     <packaging>jar</packaging>
@@ -35,27 +35,22 @@
     <build>
         <finalName>${project.groupId}.${project.artifactId}-${project.version}</finalName>
     </build>
-    <properties>
-        <api.version>2.0.1</api.version>
-        <core.version>2.0.5</core.version>
-        <serialization.version>2.6.0</serialization.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>api</artifactId>
-            <version>${api.version}</version>
+            <version>${lapps.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>serialization</artifactId>
-            <version>${serialization.version}</version>
+            <version>${lapps.serialization.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.lappsgrid</groupId>
             <artifactId>core</artifactId>
-            <version>${core.version}</version>
+            <version>${lapps.core.version}</version>
         </dependency>
         <dependency>
             <groupId>net.servicegrid</groupId>
