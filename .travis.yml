@@ -34,4 +34,4 @@ jobs:
   - stage: Master
     install: mvn install --settings settings.xml -DskipTests=true -Dmaven.javadoc.skip=true
       -B -V
-    script: mvn --settings settings.xml package site
+    script: mvn --settings settings.xml package
