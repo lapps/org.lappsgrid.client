@@ -69,15 +69,10 @@
              Apache axis dependencies are only required by the AbstractSoapClient
              class, which is due for removal. Once AbstractSoapClient has been
              removed these dependencies can be removed as well.
-        -->
+
         <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis</artifactId>
-            <version>1.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis-jaxrpc</artifactId>
             <version>1.4</version>
         </dependency>
         <dependency>
@@ -89,6 +84,12 @@
             <groupId>axis</groupId>
             <artifactId>axis-wsdl4j</artifactId>
             <version>1.5.1</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
         </dependency>
     </dependencies>
 </project>
